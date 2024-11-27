@@ -4,29 +4,41 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const BASE_URL = 'https://5zrb9dzijj.execute-api.us-west-2.amazonaws.com/dev';
+
 const AppWrapper = () => {
-  const [data, setData] = useState(null);
+  const [helloData, setHelloData] = useState(null);
+  const [s3ListData, setS3ListData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch data from API
-    const fetchData = async () => {
+    // Fetch data from both APIs
+    const fetchApis = async () => {
       try {
-        const response = await fetch('https://catfact.ninja/fact');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        const helloResponse = await fetch(`${BASE_URL}/hello`);
+        const listResponse = await fetch(`${BASE_URL}/list_s3`);
+
+        if (!helloResponse.ok) {
+          throw new Error(`Hello API error! Status: ${helloResponse.status}`);
         }
-        const result = await response.json();
-        setData(result); // Store the response data
+        if (!listResponse.ok) {
+          throw new Error(`List S3 API error! Status: ${listResponse.status}`);
+        }
+
+        const helloResult = await helloResponse.json();
+        const listResult = await listResponse.json();
+
+        setHelloData(helloResult);
+        setS3ListData(listResult);
       } catch (err) {
-        setError(err.message); // Handle errors
+        setError(err.message); // Handle any error
       }
     };
 
-    fetchData();
+    fetchApis();
   }, []);
 
-  return <App data={data} error={error} />;
+  return <App helloData={helloData} s3ListData={s3ListData} error={error} />;
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

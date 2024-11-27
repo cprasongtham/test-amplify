@@ -1,0 +1,48 @@
+service: python-lambda-api
+
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-west-2
+  memorySize: 128
+  timeout: 10
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+            - s3:ListBucket
+          Resource:
+            - arn:aws:s3:::putest-tfstate
+            - arn:aws:s3:::putest-tfstate/*
+  
+
+functions:
+  helloworld:
+    handler: helloworld/main.handler
+    events:
+      - http:
+          path: hello
+          method: get
+          cors: true
+  list_s3:
+    handler: list_s3/main.handler
+    events:
+      - http:
+          path: list_s3
+          method: get
+          cors: true
+    
+
+
+
+# plugins:
+#   - serverless-python-requirements
+
+# custom:
+#   pythonRequirements:
+#     dockerizePip: true
