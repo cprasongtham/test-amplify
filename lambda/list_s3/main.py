@@ -9,7 +9,15 @@ def handler(event, context):
         response = s3_client.list_objects_v2(Bucket=bucket_name)
         if "Contents" in response:
             files = [item["Key"] for item in response["Contents"]]
-            return json.dumps({"files": files})
+            return {
+                "statusCode": 200,
+                "body": json.dumps({"files": files}),
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',  # Allow all origins
+                    'Access-Control-Allow-Headers': 'Content-Type',  # Allow specific headers
+                    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'  # Allow specific methods
+                },
+            }
     except Exception as e:
         return {
             "statusCode": 500,

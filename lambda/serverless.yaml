@@ -1,12 +1,20 @@
-service: python-lambda-api
+service: putest-lambda-api
 
-
+package:
+  individually: true
+  exclude:
+    - ./**
+    
 provider:
   name: aws
   runtime: python3.9
   region: us-west-2
   memorySize: 128
   timeout: 10
+  deploymentBucket:
+    name: putest-serverless
+    maxPreviousDeploymentArtifacts: 3
+    blockPublicAccess: true
   iam:
     role:
       statements:
@@ -24,6 +32,9 @@ provider:
 functions:
   helloworld:
     handler: helloworld/main.handler
+    package:
+      include:
+        - 'helloworld/main.py'
     events:
       - http:
           path: hello
@@ -31,6 +42,9 @@ functions:
           cors: true
   list_s3:
     handler: list_s3/main.handler
+    package:
+      include:
+        - 'list_s3/main.py'
     events:
       - http:
           path: list_s3

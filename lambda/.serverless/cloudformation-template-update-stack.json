@@ -5,13 +5,13 @@
     "HelloworldLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/python-lambda-api-dev-helloworld"
+        "LogGroupName": "/aws/lambda/putest-lambda-api-dev-helloworld"
       }
     },
     "ListUnderscores3LogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/python-lambda-api-dev-list_s3"
+        "LogGroupName": "/aws/lambda/putest-lambda-api-dev-list_s3"
       }
     },
     "IamRoleLambdaExecution": {
@@ -39,7 +39,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "python-lambda-api",
+                  "putest-lambda-api",
                   "dev",
                   "lambda"
                 ]
@@ -57,7 +57,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/python-lambda-api-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/putest-lambda-api-dev*:*"
                     }
                   ]
                 },
@@ -68,7 +68,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/python-lambda-api-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/putest-lambda-api-dev*:*:*"
                     }
                   ]
                 },
@@ -94,7 +94,7 @@
           "Fn::Join": [
             "-",
             [
-              "python-lambda-api",
+              "putest-lambda-api",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -109,12 +109,12 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "serverless-framework-deployments-us-west-2-c8726b18-5e37",
-          "S3Key": "serverless/python-lambda-api/dev/1732704661097-2024-11-27T10:51:01.097Z/python-lambda-api.zip"
+          "S3Bucket": "putest-serverless",
+          "S3Key": "serverless/putest-lambda-api/dev/1732720091106-2024-11-27T15:08:11.106Z/helloworld.zip"
         },
         "Handler": "helloworld/main.handler",
         "Runtime": "python3.9",
-        "FunctionName": "python-lambda-api-dev-helloworld",
+        "FunctionName": "putest-lambda-api-dev-helloworld",
         "MemorySize": 128,
         "Timeout": 10,
         "Role": {
@@ -132,12 +132,12 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "serverless-framework-deployments-us-west-2-c8726b18-5e37",
-          "S3Key": "serverless/python-lambda-api/dev/1732704661097-2024-11-27T10:51:01.097Z/python-lambda-api.zip"
+          "S3Bucket": "putest-serverless",
+          "S3Key": "serverless/putest-lambda-api/dev/1732720091106-2024-11-27T15:08:11.106Z/list_s3.zip"
         },
         "Handler": "list_s3/main.handler",
         "Runtime": "python3.9",
-        "FunctionName": "python-lambda-api-dev-list_s3",
+        "FunctionName": "putest-lambda-api-dev-list_s3",
         "MemorySize": 128,
         "Timeout": 10,
         "Role": {
@@ -151,30 +151,30 @@
         "ListUnderscores3LogGroup"
       ]
     },
-    "HelloworldLambdaVersionRK3iUPvM6mIqAuMfylCk40e8ZY6GZtabPS81C9Y": {
+    "HelloworldLambdaVersionYHNBdeq3kmqJQe46NFG5zSi7IpHSyOKyovXjnvoOt7M": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HelloworldLambdaFunction"
         },
-        "CodeSha256": "He7V3vpwTIetuPVwAcaCRIi5PXllTPJQkBb13Glv3u8="
+        "CodeSha256": "zfhkRsPzuJTkd6dVIsmD014vrFBZkUyfj9qDfW4SBOw="
       }
     },
-    "ListUnderscores3LambdaVersionfrD6ZCPifp2gAKU15Py33mipssg00OQ7WBzKyEeDg": {
+    "ListUnderscores3LambdaVersionMJaweNuAbhmkMUEXBczQFD02yrzbHMFYAE4ELXmI8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ListUnderscores3LambdaFunction"
         },
-        "CodeSha256": "He7V3vpwTIetuPVwAcaCRIi5PXllTPJQkBb13Glv3u8="
+        "CodeSha256": "hPi1TU/rxA083uZq46KX9LHwERIxKyQ0jVbixX1tIYs="
       }
     },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "dev-python-lambda-api",
+        "Name": "dev-putest-lambda-api",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -395,7 +395,7 @@
         "ListUnderscores3LambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1732704649800": {
+    "ApiGatewayDeployment1732720082858": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -487,27 +487,27 @@
   },
   "Outputs": {
     "ServerlessDeploymentBucketName": {
-      "Value": "serverless-framework-deployments-us-west-2-c8726b18-5e37",
+      "Value": "putest-serverless",
       "Export": {
-        "Name": "sls-python-lambda-api-dev-ServerlessDeploymentBucketName"
+        "Name": "sls-putest-lambda-api-dev-ServerlessDeploymentBucketName"
       }
     },
     "HelloworldLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloworldLambdaVersionRK3iUPvM6mIqAuMfylCk40e8ZY6GZtabPS81C9Y"
+        "Ref": "HelloworldLambdaVersionYHNBdeq3kmqJQe46NFG5zSi7IpHSyOKyovXjnvoOt7M"
       },
       "Export": {
-        "Name": "sls-python-lambda-api-dev-HelloworldLambdaFunctionQualifiedArn"
+        "Name": "sls-putest-lambda-api-dev-HelloworldLambdaFunctionQualifiedArn"
       }
     },
     "ListUnderscores3LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListUnderscores3LambdaVersionfrD6ZCPifp2gAKU15Py33mipssg00OQ7WBzKyEeDg"
+        "Ref": "ListUnderscores3LambdaVersionMJaweNuAbhmkMUEXBczQFD02yrzbHMFYAE4ELXmI8"
       },
       "Export": {
-        "Name": "sls-python-lambda-api-dev-ListUnderscores3LambdaFunctionQualifiedArn"
+        "Name": "sls-putest-lambda-api-dev-ListUnderscores3LambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
@@ -533,7 +533,7 @@
         ]
       },
       "Export": {
-        "Name": "sls-python-lambda-api-dev-ServiceEndpoint"
+        "Name": "sls-putest-lambda-api-dev-ServiceEndpoint"
       }
     }
   }

@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const BASE_URL = 'https://5zrb9dzijj.execute-api.us-west-2.amazonaws.com/dev';
+const BASE_URL = 'https://jzkjog83c3.execute-api.us-west-2.amazonaws.com/dev';
 
 const AppWrapper = () => {
   const [helloData, setHelloData] = useState(null);
