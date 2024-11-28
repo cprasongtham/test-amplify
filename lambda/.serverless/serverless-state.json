@@ -139,7 +139,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "putest-serverless",
-                "S3Key": "serverless/putest-lambda-api/dev/1732720091106-2024-11-27T15:08:11.106Z/helloworld.zip"
+                "S3Key": "serverless/putest-lambda-api/dev/1732778816529-2024-11-28T07:26:56.529Z/helloworld.zip"
               },
               "Handler": "helloworld/main.handler",
               "Runtime": "python3.9",
@@ -162,7 +162,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "putest-serverless",
-                "S3Key": "serverless/putest-lambda-api/dev/1732720091106-2024-11-27T15:08:11.106Z/list_s3.zip"
+                "S3Key": "serverless/putest-lambda-api/dev/1732778816529-2024-11-28T07:26:56.529Z/list_s3.zip"
               },
               "Handler": "list_s3/main.handler",
               "Runtime": "python3.9",
@@ -424,7 +424,7 @@
               "ListUnderscores3LambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1732720082858": {
+          "ApiGatewayDeployment1732778809983": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -569,6 +569,17 @@
       },
       "vpc": {}
     },
+    "custom": {
+      "stage": "dev",
+      "customDomain": {
+        "domainName": "api-putest.snaplogicsandbox.com",
+        "stage": "dev",
+        "basePath": "lambda"
+      }
+    },
+    "plugins": [
+      "serverless-domain-manager"
+    ],
     "pluginsData": {},
     "functions": {
       "helloworld": {
@@ -577,7 +588,7 @@
           "include": [
             "helloworld/main.py"
           ],
-          "artifact": "D:\\works\\snaplogic\\git\\test-amplify\\lambda\\.serverless\\helloworld.zip"
+          "artifact": "D:\\works\\snaplogic\\git\\amplify\\test-amplify\\lambda\\.serverless\\helloworld.zip"
         },
         "events": [
           {
@@ -618,7 +629,7 @@
           "include": [
             "list_s3/main.py"
           ],
-          "artifact": "D:\\works\\snaplogic\\git\\test-amplify\\lambda\\.serverless\\list_s3.zip"
+          "artifact": "D:\\works\\snaplogic\\git\\amplify\\test-amplify\\lambda\\.serverless\\list_s3.zip"
         },
         "events": [
           {
@@ -665,7 +676,13 @@
         ],
         "artifactsS3KeyDirname": "serverless/putest-lambda-api/dev/code-artifacts",
         "deploymentBucket": "putest-serverless",
-        "artifactDirectoryName": "serverless/putest-lambda-api/dev/1732720091106-2024-11-27T15:08:11.106Z"
+        "artifactDirectoryName": "serverless/putest-lambda-api/dev/1732778816529-2024-11-28T07:26:56.529Z"
+      },
+      "plugins": {
+        "$ref": "$[\"service\"][\"plugins\"]"
+      },
+      "custom": {
+        "$ref": "$[\"service\"][\"custom\"]"
       },
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
@@ -680,7 +697,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/putest-lambda-api/dev/1732720091106-2024-11-27T15:08:11.106Z",
+    "artifactDirectoryName": "serverless/putest-lambda-api/dev/1732778816529-2024-11-28T07:26:56.529Z",
     "artifact": ""
   }
 }

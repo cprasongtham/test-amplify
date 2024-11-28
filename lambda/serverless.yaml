@@ -4,7 +4,18 @@ package:
   individually: true
   exclude:
     - ./**
-    
+
+plugins:
+  - serverless-domain-manager
+
+custom:
+  stage: dev
+  customDomain:
+    domainName: api-putest.snaplogicsandbox.com
+    stage: '${self:custom.stage}'
+    # createRoute53Record: true
+    basePath: lambda
+
 provider:
   name: aws
   runtime: python3.9
@@ -54,9 +65,3 @@ functions:
 
 
 
-# plugins:
-#   - serverless-python-requirements
-
-# custom:
-#   pythonRequirements:
-#     dockerizePip: true
