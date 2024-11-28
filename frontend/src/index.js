@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const BASE_URL = 'https://jzkjog83c3.execute-api.us-west-2.amazonaws.com/dev';
+const BASE_URL = 'https://api-putest.snaplogicsandbox.com/lambda';
 
 const AppWrapper = () => {
   const [helloData, setHelloData] = useState(null);
