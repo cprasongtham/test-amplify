@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "serverless-domain-manager": "^8.0.0"
+    "serverless-domain-manager": "^8.0.0",
+    "serverless-dotenv-plugin": "^6.0.0"
   }
 }

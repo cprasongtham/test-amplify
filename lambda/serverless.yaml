@@ -1,5 +1,7 @@
 service: putest-lambda-api
 
+useDotenv: true
+
 package:
   individually: true
   exclude:
@@ -7,9 +9,10 @@ package:
 
 plugins:
   - serverless-domain-manager
+  - serverless-dotenv-plugin
 
 custom:
-  stage: dev
+  stage: ${opt:stage, self:provider.stage}
   customDomain:
     domainName: api-putest.snaplogicsandbox.com
     stage: '${self:custom.stage}'
@@ -20,6 +23,8 @@ provider:
   name: aws
   runtime: python3.9
   region: us-west-2
+  environment:
+    SECRET_A: ${ssm:/${opt:stage}/putest}  
   memorySize: 128
   timeout: 10
   deploymentBucket:
@@ -38,9 +43,17 @@ provider:
           Resource:
             - arn:aws:s3:::putest-tfstate
             - arn:aws:s3:::putest-tfstate/*
-  
 
 functions:
+  azureadauth:
+    handler: authorizer/app.handler 
+    package:
+      include:
+        - authorizer/**
+      excludeDevDependencies: false
+    runtime: nodejs20.x
+    memorySize: 128 
+    timeout: 10
   helloworld:
     handler: helloworld/main.handler
     package:
@@ -49,8 +62,13 @@ functions:
     events:
       - http:
           path: hello
-          method: get
+          method: any
           cors: true
+          authorizer:
+            name: azureadauth
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
   list_s3:
     handler: list_s3/main.handler
     package:
@@ -58,10 +76,5 @@ functions:
         - 'list_s3/main.py'
     events:
       - http:
-          path: list_s3
+          path: list-s3
           method: get
-          cors: true
-    
-
-
-

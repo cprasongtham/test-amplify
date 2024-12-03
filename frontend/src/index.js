@@ -16,7 +16,7 @@ const AppWrapper = () => {
     const fetchApis = async () => {
       try {
         const helloResponse = await fetch(`${BASE_URL}/hello`);
-        const listResponse = await fetch(`${BASE_URL}/list_s3`);
+        const listResponse = await fetch(`${BASE_URL}/list-s3`);
 
         if (!helloResponse.ok) {
           throw new Error(`Hello API error! Status: ${helloResponse.status}`);

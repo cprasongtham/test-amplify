@@ -2,6 +2,12 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "The AWS CloudFormation template for this Serverless application",
   "Resources": {
+    "AzureadauthLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/putest-lambda-api-dev-azureadauth"
+      }
+    },
     "HelloworldLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
@@ -105,18 +111,53 @@
         }
       }
     },
+    "AzureadauthLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "putest-serverless",
+          "S3Key": "serverless/putest-lambda-api/dev/1733225092854-2024-12-03T11:24:52.854Z/azureadauth.zip"
+        },
+        "Handler": "authorizer/app.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "putest-lambda-api-dev-azureadauth",
+        "MemorySize": 128,
+        "Timeout": 10,
+        "Environment": {
+          "Variables": {
+            "SECRET_A": "testtttttt",
+            "TEST": "abc"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "AzureadauthLogGroup"
+      ]
+    },
     "HelloworldLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": "putest-serverless",
-          "S3Key": "serverless/putest-lambda-api/dev/1732778816529-2024-11-28T07:26:56.529Z/helloworld.zip"
+          "S3Key": "serverless/putest-lambda-api/dev/1733225092854-2024-12-03T11:24:52.854Z/helloworld.zip"
         },
         "Handler": "helloworld/main.handler",
         "Runtime": "python3.9",
         "FunctionName": "putest-lambda-api-dev-helloworld",
         "MemorySize": 128,
         "Timeout": 10,
+        "Environment": {
+          "Variables": {
+            "SECRET_A": "testtttttt",
+            "TEST": "abc"
+          }
+        },
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -133,13 +174,19 @@
       "Properties": {
         "Code": {
           "S3Bucket": "putest-serverless",
-          "S3Key": "serverless/putest-lambda-api/dev/1732778816529-2024-11-28T07:26:56.529Z/list_s3.zip"
+          "S3Key": "serverless/putest-lambda-api/dev/1733225092854-2024-12-03T11:24:52.854Z/list_s3.zip"
         },
         "Handler": "list_s3/main.handler",
         "Runtime": "python3.9",
         "FunctionName": "putest-lambda-api-dev-list_s3",
         "MemorySize": 128,
         "Timeout": 10,
+        "Environment": {
+          "Variables": {
+            "SECRET_A": "testtttttt",
+            "TEST": "abc"
+          }
+        },
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -151,17 +198,17 @@
         "ListUnderscores3LogGroup"
       ]
     },
-    "HelloworldLambdaVersionYHNBdeq3kmqJQe46NFG5zSi7IpHSyOKyovXjnvoOt7M": {
+    "HelloworldLambdaVersion11YHDRYcQkYUAdFT4cFU2kIuWOa354NUVGvpdSbPWI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HelloworldLambdaFunction"
         },
-        "CodeSha256": "zfhkRsPzuJTkd6dVIsmD014vrFBZkUyfj9qDfW4SBOw="
+        "CodeSha256": "sVrrIcJUFWW5ZRLRUD5qaP8uDXECx0hWQs5bWR1HL78="
       }
     },
-    "ListUnderscores3LambdaVersionMJaweNuAbhmkMUEXBczQFD02yrzbHMFYAE4ELXmI8": {
+    "ListUnderscores3LambdaVersionzjQF2XjoSYa7Wk3FhNRyN5kI2dDhpVVrL8Zy2HiBIk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -169,6 +216,16 @@
           "Ref": "ListUnderscores3LambdaFunction"
         },
         "CodeSha256": "hPi1TU/rxA083uZq46KX9LHwERIxKyQ0jVbixX1tIYs="
+      }
+    },
+    "AzureadauthLambdaVersionLjGy0NfKko1dvssZXGXNKRI5RWVa8qH7uepPemRjw": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AzureadauthLambdaFunction"
+        },
+        "CodeSha256": "IH/xDnUlnu/x7K/cv4iNeWx8fI0kJw92/vxHv9SNQFo="
       }
     },
     "ApiGatewayRestApi": {
@@ -198,7 +255,7 @@
         }
       }
     },
-    "ApiGatewayResourceLists3": {
+    "ApiGatewayResourceListDashs3": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -207,7 +264,7 @@
             "RootResourceId"
           ]
         },
-        "PathPart": "list_s3",
+        "PathPart": "list-s3",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -242,7 +299,7 @@
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
               },
               "ResponseTemplates": {
                 "application/json": ""
@@ -258,55 +315,10 @@
         }
       }
     },
-    "ApiGatewayMethodLists3Options": {
+    "ApiGatewayMethodHelloAny": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "OPTIONS",
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseParameters": {
-              "method.response.header.Access-Control-Allow-Origin": true,
-              "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true
-            },
-            "ResponseModels": {}
-          }
-        ],
-        "RequestParameters": {},
-        "Integration": {
-          "Type": "MOCK",
-          "RequestTemplates": {
-            "application/json": "{statusCode:200}"
-          },
-          "ContentHandling": "CONVERT_TO_TEXT",
-          "IntegrationResponses": [
-            {
-              "StatusCode": "200",
-              "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
-              },
-              "ResponseTemplates": {
-                "application/json": ""
-              }
-            }
-          ]
-        },
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceLists3"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayMethodHelloGet": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
+        "HttpMethod": "ANY",
         "RequestParameters": {},
         "ResourceId": {
           "Ref": "ApiGatewayResourceHello"
@@ -315,7 +327,10 @@
           "Ref": "ApiGatewayRestApi"
         },
         "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "AzureadauthApiGatewayAuthorizer"
+        },
         "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
@@ -346,16 +361,16 @@
         "MethodResponses": []
       },
       "DependsOn": [
-        "HelloworldLambdaPermissionApiGateway"
+        "AzureadauthApiGatewayAuthorizer"
       ]
     },
-    "ApiGatewayMethodLists3Get": {
+    "ApiGatewayMethodListDashs3Get": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "GET",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceLists3"
+          "Ref": "ApiGatewayResourceListDashs3"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -395,7 +410,42 @@
         "ListUnderscores3LambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1732778809983": {
+    "AzureadauthApiGatewayAuthorizer": {
+      "Type": "AWS::ApiGateway::Authorizer",
+      "Properties": {
+        "AuthorizerResultTtlInSeconds": 0,
+        "IdentitySource": "method.request.header.Authorization",
+        "Name": "azureadauth",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "AuthorizerUri": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":apigateway:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":lambda:path/2015-03-31/functions/",
+              {
+                "Fn::GetAtt": [
+                  "AzureadauthLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "/invocations"
+            ]
+          ]
+        },
+        "Type": "TOKEN"
+      }
+    },
+    "ApiGatewayDeployment1733225068677": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -405,9 +455,8 @@
       },
       "DependsOn": [
         "ApiGatewayMethodHelloOptions",
-        "ApiGatewayMethodLists3Options",
-        "ApiGatewayMethodHelloGet",
-        "ApiGatewayMethodLists3Get"
+        "ApiGatewayMethodHelloAny",
+        "ApiGatewayMethodListDashs3Get"
       ]
     },
     "HelloworldLambdaPermissionApiGateway": {
@@ -416,6 +465,43 @@
         "FunctionName": {
           "Fn::GetAtt": [
             "HelloworldLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "AzureadauthLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AzureadauthLambdaFunction",
             "Arn"
           ]
         },
@@ -495,7 +581,7 @@
     "HelloworldLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloworldLambdaVersionYHNBdeq3kmqJQe46NFG5zSi7IpHSyOKyovXjnvoOt7M"
+        "Ref": "HelloworldLambdaVersion11YHDRYcQkYUAdFT4cFU2kIuWOa354NUVGvpdSbPWI"
       },
       "Export": {
         "Name": "sls-putest-lambda-api-dev-HelloworldLambdaFunctionQualifiedArn"
@@ -504,10 +590,19 @@
     "ListUnderscores3LambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListUnderscores3LambdaVersionMJaweNuAbhmkMUEXBczQFD02yrzbHMFYAE4ELXmI8"
+        "Ref": "ListUnderscores3LambdaVersionzjQF2XjoSYa7Wk3FhNRyN5kI2dDhpVVrL8Zy2HiBIk"
       },
       "Export": {
         "Name": "sls-putest-lambda-api-dev-ListUnderscores3LambdaFunctionQualifiedArn"
+      }
+    },
+    "AzureadauthLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "AzureadauthLambdaVersionLjGy0NfKko1dvssZXGXNKRI5RWVa8qH7uepPemRjw"
+      },
+      "Export": {
+        "Name": "sls-putest-lambda-api-dev-AzureadauthLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
